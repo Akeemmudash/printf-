@@ -73,3 +73,34 @@ void check_buffer(char *buffer, char *str)
 	}
 	strcat(buffer, str);
 }
+
+typedef char* (*specifier_function)(va_list);
+
+/**
+  * struct specifier - Holds information about a format specifier
+  * @c: Character to identify the format specifier
+  * @func: Function to handle the specifier
+  */
+typedef struct specifier
+{
+	char c;
+	specifier_function func;
+} c_specifier;
+
+/**
+  * struct return_string - Holds information about a formatted string
+  * @i: Total length of the specifier
+  * @string: Post-formatted string corresponding to the specifier
+  *
+  * Description: This structure holds the length of the specifier
+  *              (e.g., '.2f' makes i = 3) and the resulting formatted string.
+  */
+typedef struct return_string
+{
+	int i;
+	char *string;
+} variable_string;
+
+int _printf(const char *format, ...);
+variable_string *check_specifier(const char *format, va_list args);
+specifier_function retrieve_function(int index);
